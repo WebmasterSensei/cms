@@ -94,15 +94,15 @@ export default function PieChartJs() {
         <>
             <div className="py-1">
                 <div className="mx-auto sm:px-6 lg:px-8">
-                    <PieChart width={400} height={400}>
+                    <PieChart width={600} height={600}>
                         <Pie
                             activeIndex={activeIndex}
                             activeShape={renderActiveShape}
                             data={data}
-                            cx={200}
-                            cy={200}
-                            innerRadius={60}
-                            outerRadius={80}
+                            cx={300}
+                            cy={250}
+                            outerRadius={140}
+                            innerRadius={100}
                             fill="#8884d8"
                             dataKey="value"
                             onMouseEnter={onPieEnter}
