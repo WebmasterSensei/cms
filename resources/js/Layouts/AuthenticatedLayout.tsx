@@ -354,7 +354,7 @@ export default function Authenticated({
                 </DisclosurePanel>
             </Disclosure>
 
-            <main>{children}</main>
+            <main style={{background: 'white'}}>{children}</main>
         </div>
     );
 }

@@ -6,6 +6,7 @@ const data = [
     { name: "Group B", value: 300 },
     { name: "Group C", value: 300 },
     { name: "Group D", value: 200 },
+    { name: "Group E", value: 200 },
 ];
 
 const renderActiveShape = (props: any) => {
@@ -94,15 +95,13 @@ export default function PieChartJs() {
         <>
             <div className="py-1">
                 <div className="mx-auto sm:px-6 lg:px-8">
-                    <PieChart width={600} height={600}>
+                    <PieChart width={800} height={350}>
                         <Pie
                             activeIndex={activeIndex}
                             activeShape={renderActiveShape}
                             data={data}
-                            cx={300}
-                            cy={250}
-                            outerRadius={140}
-                            innerRadius={100}
+                            outerRadius={90}
+                            innerRadius={60}
                             fill="#8884d8"
                             dataKey="value"
                             onMouseEnter={onPieEnter}

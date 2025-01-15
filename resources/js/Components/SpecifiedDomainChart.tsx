@@ -53,10 +53,8 @@ export default function SpecifiedDomainChart() {
             <div className="py-1">
                 <div className="mx-auto sm:px-6 lg:px-8">
                     <RadarChart
-                        cx={300}
-                        cy={250}
                         outerRadius={150}
-                        width={600}
+                        width={800}
                         height={600}
                         data={data}
                     >
