@@ -14,7 +14,7 @@ export default function Login({
     canResetPassword: boolean;
 }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: "",
+        username: "",
         password: "",
         remember: false,
     });
@@ -43,15 +43,15 @@ export default function Login({
 
                                 <div className="grid grid-cols-2 gap-4 mb-3">
                                     <TextInput
-                                        id="email"
-                                        name="email"
+                                        id="username"
+                                        name="username"
                                         className="w-full px-5 py-3 border border-slate-300 rounded-2xl"
-                                        type="email"
-                                        value={data.email}
+                                        type="text"
+                                        value={data.username}
                                         onChange={(e) =>
-                                            setData("email", e.target.value)
+                                            setData("username", e.target.value)
                                         }
-                                        placeholder="Email"
+                                        placeholder="Username"
                                     />
                                     <TextInput
                                         id="password"
@@ -67,7 +67,7 @@ export default function Login({
                                 </div>
 
                                 <div className="w-[95%] m-auto">
-                                    {!errors.email && !errors.password ? (
+                                    {!errors.username && !errors.password ? (
                                         <div className="relative flex w-full animate-pulse gap-2 p-4">
                                             <div className="h-12 w-12 rounded-full bg-slate-400"></div>
                                             <div className="flex-1">
@@ -79,7 +79,7 @@ export default function Login({
                                     ) : (
                                         <div className="mt-6 mb-10">
                                             <InputError
-                                                message={errors.email}
+                                                message={errors.username}
                                             />
                                             <InputError
                                                 message={errors.password}
@@ -138,7 +138,7 @@ export default function Login({
 
         //     <form onSubmit={submit}>
         //         <div>
-        //             <InputLabel htmlFor="email" value="Email" />
+        //             <InputLabel htmlFor="username" value="username" />
 
         //             <TextInput
         //                 id="email"
