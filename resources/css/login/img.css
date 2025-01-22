@@ -4,35 +4,57 @@
     color: white;
 }
 
-  .loader {
+.loader {
     overflow: visible;
     height: fit-content;
     width: fit-content;
     display: flex;
-  }
+}
 
-  .logo {
+.logo {
     fill: none;
     stroke-dasharray: 20px;
     /*<-- Play with this number until it look cool */
     stroke: black;
     animation: load 15s infinite linear;
-  }
+}
 
-  @keyframes load {
+@keyframes load {
     0% {
-      stroke-dashoffset: 0px;
+        stroke-dashoffset: 0px;
     }
 
     100% {
-      stroke-dashoffset: 200px;
-      /* <-- This number should always be 10 times the number up there*/
+        stroke-dashoffset: 200px;
+        /* <-- This number should always be 10 times the number up there*/
     }
-  }
+}
 
-  .logoimage{
-    height: 400px;
-    position: absolute;
-    left: 555px;
-    top: 185px;
-  }
+.logoimage {
+    height: 350px;
+    box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.5); /* Glow effect */
+    border-radius: 50%; /* Optional: makes the glow appear around a circular image */
+    animation: glowEffect 2s infinite alternate; /* Optional pulsating animation */
+}
+
+/* Optional glow animation */
+@keyframes glowEffect {
+    0% {
+        box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
+    }
+    100% {
+        box-shadow: 0 0 30px 15px rgba(255, 255, 255, 0.6);
+    }
+}
+
+.bg {
+    background-image: url("../images/wallp.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}

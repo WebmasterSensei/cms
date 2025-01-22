@@ -31,7 +31,7 @@ export default function Login({
         <>
             <div className="flex justify-center items-center h-[100vh]">
                 <div
-                    className="shadow-2xl w-[65%] h-[500px]  rounded-[2rem] overflow-hidden"
+                    className="shadow-2xl w-[65%] rounded-[2rem] overflow-hidden"
                     style={{ border: "solid #BCCCDC 2px" }}
                 >
                     <div className="grid grid-cols-2">
@@ -90,7 +90,7 @@ export default function Login({
                                 <div className="flex justify-center mt-3 mb-3">
                                     <div className="loader flex justify-end">
                                         <svg
-                                            className={processing ? 'logo' : ''}
+                                            className={processing ? "logo" : ""}
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="150"
                                             height="150"
@@ -113,12 +113,7 @@ export default function Login({
                                 </div>
                             </form>
                         </div>
-                        <div className="bg-white">
-
-                            <Image
-                                src="../images/wallp.jpg"
-                                className="h-[500px]"
-                            />
+                        <div className="bg">
                             <Image
                                 src="../images/logo.png"
                                 className="logoimage"
@@ -128,78 +123,5 @@ export default function Login({
                 </div>
             </div>
         </>
-        // <GuestLayout>
-
-        //     {status && (
-        //         <div classNameName="mb-4 text-sm font-medium text-green-600">
-        //             {status}
-        //         </div>
-        //     )}
-
-        //     <form onSubmit={submit}>
-        //         <div>
-        //             <InputLabel htmlFor="username" value="username" />
-
-        //             <TextInput
-        //                 id="email"
-        //                 type="email"
-        //                 name="email"
-        //                 value={data.email}
-        //                 className="mt-1 block w-full"
-        //                 autoComplete="username"
-        //                 isFocused={true}
-        //                 onChange={(e) => setData('email', e.target.value)}
-        //             />
-
-        //             <InputError message={errors.email} className="mt-2" />
-        //         </div>
-
-        //         <div className="mt-4">
-        //             <InputLabel htmlFor="password" value="Password" />
-
-        //             <TextInput
-        //                 id="password"
-        //                 type="password"
-        //                 name="password"
-        //                 value={data.password}
-        //                 className="mt-1 block w-full"
-        //                 autoComplete="current-password"
-        //                 onChange={(e) => setData('password', e.target.value)}
-        //             />
-
-        //             <InputError message={errors.password} className="mt-2" />
-        //         </div>
-
-        //         <div className="mt-4 block">
-        //             <label className="flex items-center">
-        //                 <Checkbox
-        //                     name="remember"
-        //                     checked={data.remember}
-        //                     onChange={(e) =>
-        //                         setData('remember', e.target.checked)
-        //                     }
-        //                 />
-        //                 <span className="ms-2 text-sm text-gray-600">
-        //                     Remember me
-        //                 </span>
-        //             </label>
-        //         </div>
-
-        //         <div className="mt-4 flex items-center justify-end">
-        //             {canResetPassword && (
-        //                 <Link
-        //                     href={route('password.request')}
-        //                     className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        //                 >
-        //                     Forgot your password?
-        //                 </Link>
-        //             )}
-
-        //             <PrimaryButton className="ms-4" disabled={processing}>
-        //                 Log in
-        //             </PrimaryButton>
-        //         </div>
-        //     </form>
-        // </GuestLayout>
     );
 }
