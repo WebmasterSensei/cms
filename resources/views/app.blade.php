@@ -30,7 +30,7 @@
     * {
         font-family: "Poppins", serif;
         font-weight: 500;
-        font-size: 15px;
+        font-size: 14px;
         letter-spacing: .3px;
         text-decoration: none;
         box-sizing: border-box;

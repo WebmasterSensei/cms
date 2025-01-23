@@ -47,7 +47,7 @@ export default function Dashboard() {
         >
             <Head title="Dashboard" />
             <div className="py-1">
-                <div className="min-h-screen bg-gray-100 p-6">
+                <div className="min-h-screen p-6">
                     <div className="container mx-auto">
                         <header className="mb-6">
                             <h1 className="text-2xl font-bold text-gray-800">
