@@ -14,7 +14,7 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
         resolvePageComponent(
-            `./Pages/${name}.tsx`,
+            `./Pages/${name}.tsx`, 
             import.meta.glob('./Pages/**/*.tsx')
         ),
     setup({ el, App, props }) {
@@ -28,6 +28,7 @@ createInertiaApp({
     },
     progress: {
         color: '#4B5563',
+        showSpinner: true,
     },
 });
 
