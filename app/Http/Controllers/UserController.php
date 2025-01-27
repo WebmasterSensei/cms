@@ -11,15 +11,8 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('model_has_role.roles')->get();
-
-        $users->transform(function ($item) {
-            $item->role = $item->model_has_role?->roles->name;
-            return $item;
-        });
-
         return inertia('Users/UserIndex', [
-            'records' => $users,
+            'records' => User::with('model_has_role.roles')->paginate(10),
         ]);
     }
 
@@ -69,6 +62,15 @@ class UserController extends Controller
 
             $user->syncRoles([$request->role]);
         });
+
+        return redirect()->back();
+    }
+
+    public function deleteUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        $user->delete();
 
         return redirect()->back();
     }

@@ -20,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('users-create', [UserController::class, 'createUsers'])->name('create');
         Route::get('users-details-{id}', [UserController::class, 'getUser'])->name('user');
         Route::put('users-update', [UserController::class, 'updateUser'])->name('update');
+        Route::delete('users-delete-{id}', [UserController::class, 'deleteUser'])->name('delete');
     });
 });
 
@@ -30,3 +31,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+

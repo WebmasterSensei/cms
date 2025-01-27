@@ -65,6 +65,7 @@ export default function Login({
                                     />
                                 </div>
 
+
                                 <div className="w-[95%] m-auto">
                                     {!errors.username && !errors.password ? (
                                         <div className="relative flex w-full animate-pulse gap-2 p-4">

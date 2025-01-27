@@ -16,25 +16,34 @@ import {
     ModalBody,
     ModalFooter,
     Select,
-    SelectSection,
+    Switch,
     SelectItem,
 } from "@heroui/react";
 import { useState } from "react";
+import React from "react";
 import axios from "axios";
-import { useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
+import Pagination from "@/Components/Pagination";
 
 interface Records {
     records: {
-        id: number;
-        name: string;
-        username: string;
-        model_has_role: {
-            role_id: number;
-            roles: {
-                name: string;
+        data: {
+            id: number;
+            name: string;
+            username: string;
+            model_has_role: {
+                role_id: number;
+                roles: {
+                    name: string;
+                };
             };
-        };
-    }[];
+        }[];
+        links: {
+            url: string;
+            label: string;
+            active: boolean;
+        }[];
+    };
 }
 
 interface User {
@@ -103,7 +112,7 @@ export default function UserIndex({ records }: Records) {
     const [isOpen, onOpenChange] = useState(false);
     const [isOpenCreate, onOpenChangeCreate] = useState(false);
 
-    const { data, setData, post, put, processing, errors } = useForm({
+    const { data, setData, post, put, processing, errors, reset } = useForm({
         name: "",
         username: "",
         role: "",
@@ -121,6 +130,7 @@ export default function UserIndex({ records }: Records) {
 
     const openModalCreate = () => {
         onOpenChangeCreate(true);
+        reset();
     };
 
     const onSubmit = () => {
@@ -152,10 +162,10 @@ export default function UserIndex({ records }: Records) {
             });
         }
     };
-    const handleChange = (str: keyof typeof errors,  e: any) => {
+    const handleChange = (str: keyof typeof errors, e: any) => {
         setData(str, e.target.value);
-        errors[str] = '';
-    }
+        errors[str] = "";
+    };
 
     const submitUser = () => {
         try {
@@ -196,6 +206,33 @@ export default function UserIndex({ records }: Records) {
         }
     };
 
+    const deleteUser = (id: number) => {
+        Swal.fire({
+            title: "Are you sure about that?",
+            text: "Delete this User?!",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "confirm!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(route("users.delete", id), {
+                    preserveState: true,
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "User has been Deleted.",
+                            icon: "success",
+                        });
+                    },
+                });
+            }
+        });
+    };
+
+    const [isSelected, setIsSelected] = React.useState(false);
+
     return (
         <>
             <AuthenticatedLayout>
@@ -224,8 +261,9 @@ export default function UserIndex({ records }: Records) {
                                                     ? "border-red-500"
                                                     : "border-gray-300"
                                             }`}
-                                            placeholder="Enter your username"
-                                            onChange={(e) => handleChange("username", e)
+                                            placeholder="Enter username"
+                                            onChange={(e) =>
+                                                handleChange("username", e)
                                             }
                                         />
                                         {errors.username && (
@@ -247,9 +285,9 @@ export default function UserIndex({ records }: Records) {
                                                     ? "border-red-500"
                                                     : "border-gray-300"
                                             }`}
-                                            placeholder="Enter your Fullname"
+                                            placeholder="Enter Fullname"
                                             onChange={(e) =>
-                                                handleChange('name', e)
+                                                handleChange("name", e)
                                             }
                                         />
                                         {errors.name && (
@@ -260,7 +298,6 @@ export default function UserIndex({ records }: Records) {
                                     </div>
                                     <div className="mb-1">
                                         <Select
-
                                             label="Select User Role"
                                             onChange={(e) =>
                                                 handleChange("role", e)
@@ -313,7 +350,7 @@ export default function UserIndex({ records }: Records) {
                                             setData("name", e.target.value)
                                         }
                                         placeholder="Enter text"
-                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
                                     />
                                     <input
                                         type="text"
@@ -322,7 +359,7 @@ export default function UserIndex({ records }: Records) {
                                             setData("username", e.target.value)
                                         }
                                         placeholder="Enter text"
-                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
                                     />
                                     <Select
                                         label="Select User Role"
@@ -356,16 +393,29 @@ export default function UserIndex({ records }: Records) {
                 </Modal>
                 <div className="min-h-screen p-6">
                     <div className="container mx-auto">
-                        <div className="flex justify-end">
-                            <Button
-                                className="mb-3"
-                                variant="bordered"
-                                onPress={openModalCreate}
-                            >
-                                Add user <UserIcon />
-                            </Button>
+                        <div className="flex justify-between">
+                            <div>
+                                <Switch
+                                    isSelected={isSelected}
+                                    onValueChange={setIsSelected}
+                                >
+                                    Enable Delete Mode
+                                </Switch>
+                            </div>
+                            <div>
+                                <Button
+                                    className="mb-3"
+                                    variant="bordered"
+                                    onPress={openModalCreate}
+                                >
+                                    Add user <UserIcon />
+                                </Button>
+                            </div>
                         </div>
-                        <Table aria-label="Example static collection table">
+                        <Table
+                            isStriped
+                            aria-label="Example static collection table"
+                        >
                             <TableHeader>
                                 <TableColumn>NAME</TableColumn>
                                 <TableColumn>USERNAME</TableColumn>
@@ -375,7 +425,7 @@ export default function UserIndex({ records }: Records) {
                                 </TableColumn>
                             </TableHeader>
                             <TableBody>
-                                {records.map((item) => (
+                                {records.data.map((item) => (
                                     <TableRow key={item.id}>
                                         <TableCell>{item.name}</TableCell>
                                         <TableCell>{item.username}</TableCell>
@@ -387,10 +437,27 @@ export default function UserIndex({ records }: Records) {
                                                 onClick={() =>
                                                     openModal(item.id)
                                                 }
+                                                className="px-2 py-1 mr-2 bg-gray-200 text-gray-700 rounded-md hover:bg-blue-200 focus:outline-none focus:ring-1 focus:ring-blue-200"
                                             >
                                                 <FontAwesomeIcon
-                                                    className="cursor-pointer hover:text-blue-500"
+                                                    className="w-4 h-4"
                                                     icon="edit"
+                                                />
+                                            </button>
+                                            <button
+                                                disabled={isSelected === false}
+                                                onClick={() =>
+                                                    deleteUser(item.id)
+                                                }
+                                                className={`px-2 py-1 mr-2 bg-gray-200 text-red-500 rounded-md hover:bg-blue-200 focus:outline-none focus:ring-1 focus:ring-blue-200 ${
+                                                    isSelected === false
+                                                        ? "cursor-not-allowed opacity-50"
+                                                        : "cursor-pointer"
+                                                }`}
+                                            >
+                                                <FontAwesomeIcon
+                                                    className="w-4 h-4"
+                                                    icon="trash"
                                                 />
                                             </button>
                                         </TableCell>
@@ -398,6 +465,9 @@ export default function UserIndex({ records }: Records) {
                                 ))}
                             </TableBody>
                         </Table>
+                        <div className="flex justify-end">
+                            <Pagination links={records.links} />
+                        </div>
                     </div>
                 </div>
             </AuthenticatedLayout>
