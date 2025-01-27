@@ -101,12 +101,14 @@ export const UserIcon = ({
 
 export default function UserIndex({ records }: Records) {
     const [isOpen, onOpenChange] = useState(false);
+    const [isOpenCreate, onOpenChangeCreate] = useState(false);
 
-    const { data, setData, put, processing, errors } = useForm({
-        name: "",
-        username: "",
-        role: "",
-    });
+    // const { data, setData, put, processing, errors } = useForm({
+    //     name: "",
+    //     username: "",
+    //     role: "",
+    // });
+    const { submit, get, post, put, patch, delete: destroy } = useForm({ ... });
 
     const openModal = async (id: number) => {
         try {
@@ -116,6 +118,10 @@ export default function UserIndex({ records }: Records) {
         } catch (err) {
             console.log(err + "something went wrong");
         }
+    };
+
+    const openModalCreate = () => {
+        onOpenChangeCreate(true);
     };
 
     const onSubmit = () => {
@@ -148,9 +154,107 @@ export default function UserIndex({ records }: Records) {
         }
     };
 
+    const submitUser = () => {
+        try {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Continue Editing this User?!",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "confirm!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    post(route("users.update"));
+                    Swal.fire({
+                        title: "Upated!",
+                        text: "User has been Updated.",
+                        icon: "success",
+                    });
+                }
+            });
+        } catch (err) {
+            Swal.fire({
+                title: "Error!",
+                text: "Something Went Wrong While Submitting",
+                icon: "error",
+                confirmButtonText: "Edit Again",
+            });
+        }
+    };
+
     return (
         <>
             <AuthenticatedLayout>
+                <Modal
+                    isOpen={isOpenCreate}
+                    size="2xl"
+                    onOpenChange={onOpenChangeCreate}
+                >
+                    <ModalContent>
+                        {(onClose) => (
+                            <>
+                                <ModalHeader className="flex flex-col gap-1">
+                                    Add Users  Credentials
+                                </ModalHeader>
+                                <ModalBody>
+                                    <div className="mb-1">
+                                        <label className="block ml-1 text-sm font-bold text-gray-700 mb-1">
+                                            Username
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="username"
+                                            name="username"
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                            placeholder="Enter your username"
+                                        />
+                                    </div>
+                                    <div className="mb-1">
+                                        <label className="block ml-1 text-sm font-bold text-gray-700 mb-1">
+                                            Fullname
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="username"
+                                            name="username"
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                            placeholder="Enter your username"
+                                        />
+                                    </div>
+                                    <div className="mb-1">
+                                        <Select
+                                            label="Select User Role"
+                                            defaultSelectedKeys={[data?.role]}
+                                            onChange={(e) =>
+                                                setData("role", e.target.value)
+                                            }
+                                        >
+                                            {roles.map((item) => (
+                                                <SelectItem key={item.key}>
+                                                    {item.label}
+                                                </SelectItem>
+                                            ))}
+                                        </Select>
+                                    </div>
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button
+                                        color="danger"
+                                        variant="light"
+                                        onPress={onClose}
+                                    >
+                                        Close
+                                    </Button>
+                                    <Button color="primary" onPress={submitUser}>
+                                        Submit
+                                    </Button>
+                                </ModalFooter>
+                            </>
+                        )}
+                    </ModalContent>
+                </Modal>
                 <Modal size="xl" isOpen={isOpen} onOpenChange={onOpenChange}>
                     <ModalContent>
                         {(onClose) => (
@@ -192,7 +296,11 @@ export default function UserIndex({ records }: Records) {
                                     </Select>
                                 </ModalBody>
                                 <ModalFooter>
-                                    <Button color="danger" variant="light">
+                                    <Button
+                                        color="danger"
+                                        variant="light"
+                                        onPress={onClose}
+                                    >
                                         Close
                                     </Button>
                                     <Button color="primary" onPress={onSubmit}>
@@ -206,8 +314,12 @@ export default function UserIndex({ records }: Records) {
                 <div className="min-h-screen p-6">
                     <div className="container mx-auto">
                         <div className="flex justify-end">
-                            <Button className="mb-3" variant="bordered">
-                                Add user
+                            <Button
+                                className="mb-3"
+                                variant="bordered"
+                                onPress={openModalCreate}
+                            >
+                                Add user <UserIcon />
                             </Button>
                         </div>
                         <Table aria-label="Example static collection table">

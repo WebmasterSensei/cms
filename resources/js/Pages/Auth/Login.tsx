@@ -1,10 +1,9 @@
 import { Head, Link, useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
-import { Image } from "@chakra-ui/react";
 import "../../../css/login/img.css";
-import { Button } from "@chakra-ui/react";
 import InputError from "@/Components/InputError";
 import TextInput from "@/Components/TextInput";
+import { Button } from "@heroui/button";
 
 export default function Login({
     status,
@@ -104,7 +103,7 @@ export default function Login({
 
                                 <div className="w-[93%] m-auto">
                                     <Button
-                                        className="w-full bg-blue-500 rounded-xl  z-40"
+                                        className="w-full bg-blue-700 text-white rounded-xl z-40"
                                         type="submit"
                                         disabled={processing}
                                     >
@@ -114,7 +113,7 @@ export default function Login({
                             </form>
                         </div>
                         <div className="bg">
-                            <Image
+                            <img
                                 src="../images/logo.png"
                                 className="logoimage"
                             />
