@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -24,7 +25,6 @@ class UserController extends Controller
 
     public function getUser($id)
     {
-        // dd(User::with('model_has_role.roles')->where('id', $id)->first());
         $user =  User::with('model_has_role.roles')->where('id', $id)->first();
 
         if ($user) {
@@ -45,6 +45,26 @@ class UserController extends Controller
             $user->update([
                 'name' => $request->name,
                 'username' => $request->username,
+            ]);
+
+            $user->syncRoles([$request->role]);
+        });
+
+        return redirect()->back();
+    }
+    public function createUsers(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'role' => 'required|exists:roles,name',
+        ]);
+
+        DB::transaction(function () use ($request) {
+            $user = User::create([
+                'name' => $request->name,
+                'username' => $request->username,
+                'password' => Hash::make('cms2024'),
             ]);
 
             $user->syncRoles([$request->role]);

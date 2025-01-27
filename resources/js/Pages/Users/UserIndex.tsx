@@ -103,12 +103,11 @@ export default function UserIndex({ records }: Records) {
     const [isOpen, onOpenChange] = useState(false);
     const [isOpenCreate, onOpenChangeCreate] = useState(false);
 
-    // const { data, setData, put, processing, errors } = useForm({
-    //     name: "",
-    //     username: "",
-    //     role: "",
-    // });
-    const { submit, get, post, put, patch, delete: destroy } = useForm({ ... });
+    const { data, setData, post, put, processing, errors } = useForm({
+        name: "",
+        username: "",
+        role: "",
+    });
 
     const openModal = async (id: number) => {
         try {
@@ -153,12 +152,16 @@ export default function UserIndex({ records }: Records) {
             });
         }
     };
+    const handleChange = (str: keyof typeof errors,  e: any) => {
+        setData(str, e.target.value);
+        errors[str] = '';
+    }
 
     const submitUser = () => {
         try {
             Swal.fire({
-                title: "Are you sure?",
-                text: "Continue Editing this User?!",
+                title: "Are you sure about that?",
+                text: "Adding this User?!",
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -166,12 +169,21 @@ export default function UserIndex({ records }: Records) {
                 confirmButtonText: "confirm!",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    post(route("users.update"));
-                    Swal.fire({
-                        title: "Upated!",
-                        text: "User has been Updated.",
-                        icon: "success",
+                    post(route("users.create"), {
+                        preserveState: true,
+                        onSuccess: () => {
+                            Swal.fire({
+                                title: "Created!",
+                                text: "User has been Created.",
+                                icon: "success",
+                            });
+                        },
+                        onError: () => {
+                            onOpenChangeCreate(true);
+                        },
                     });
+                } else {
+                    onOpenChangeCreate(true);
                 }
             });
         } catch (err) {
@@ -196,7 +208,7 @@ export default function UserIndex({ records }: Records) {
                         {(onClose) => (
                             <>
                                 <ModalHeader className="flex flex-col gap-1">
-                                    Add Users  Credentials
+                                    Add Users Credentials
                                 </ModalHeader>
                                 <ModalBody>
                                     <div className="mb-1">
@@ -207,9 +219,20 @@ export default function UserIndex({ records }: Records) {
                                             type="text"
                                             id="username"
                                             name="username"
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                            className={`w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
+                                                errors.username
+                                                    ? "border-red-500"
+                                                    : "border-gray-300"
+                                            }`}
                                             placeholder="Enter your username"
+                                            onChange={(e) => handleChange("username", e)
+                                            }
                                         />
+                                        {errors.username && (
+                                            <p className="mt-1 text-sm text-red-500">
+                                                {errors.username}
+                                            </p>
+                                        )}
                                     </div>
                                     <div className="mb-1">
                                         <label className="block ml-1 text-sm font-bold text-gray-700 mb-1">
@@ -217,18 +240,30 @@ export default function UserIndex({ records }: Records) {
                                         </label>
                                         <input
                                             type="text"
-                                            id="username"
-                                            name="username"
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                                            placeholder="Enter your username"
+                                            id="name"
+                                            name="name"
+                                            className={`w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
+                                                errors.name
+                                                    ? "border-red-500"
+                                                    : "border-gray-300"
+                                            }`}
+                                            placeholder="Enter your Fullname"
+                                            onChange={(e) =>
+                                                handleChange('name', e)
+                                            }
                                         />
+                                        {errors.name && (
+                                            <p className="mt-1 text-sm text-red-500">
+                                                {errors.username}
+                                            </p>
+                                        )}
                                     </div>
                                     <div className="mb-1">
                                         <Select
+
                                             label="Select User Role"
-                                            defaultSelectedKeys={[data?.role]}
                                             onChange={(e) =>
-                                                setData("role", e.target.value)
+                                                handleChange("role", e)
                                             }
                                         >
                                             {roles.map((item) => (
@@ -237,6 +272,11 @@ export default function UserIndex({ records }: Records) {
                                                 </SelectItem>
                                             ))}
                                         </Select>
+                                        {errors.role && (
+                                            <p className="mt-1 text-sm text-red-500">
+                                                {errors.role}
+                                            </p>
+                                        )}
                                     </div>
                                 </ModalBody>
                                 <ModalFooter>
@@ -247,7 +287,10 @@ export default function UserIndex({ records }: Records) {
                                     >
                                         Close
                                     </Button>
-                                    <Button color="primary" onPress={submitUser}>
+                                    <Button
+                                        color="primary"
+                                        onPress={submitUser}
+                                    >
                                         Submit
                                     </Button>
                                 </ModalFooter>
