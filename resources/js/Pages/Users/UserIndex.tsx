@@ -170,7 +170,7 @@ export default function UserIndex({ records }: Records) {
     const submitUser = () => {
         try {
             Swal.fire({
-                title: "Are you sure about that?",
+                title: "Are you sure?",
                 text: "Adding this User?!",
                 icon: "question",
                 showCancelButton: true,
@@ -208,7 +208,7 @@ export default function UserIndex({ records }: Records) {
 
     const deleteUser = (id: number) => {
         Swal.fire({
-            title: "Are you sure about that?",
+            title: "Are you sure?",
             text: "Delete this User?!",
             icon: "question",
             showCancelButton: true,
