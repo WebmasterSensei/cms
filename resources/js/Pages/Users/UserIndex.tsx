@@ -129,8 +129,16 @@ export default function UserIndex({ records }: Records) {
     };
 
     const openModalCreate = () => {
+
         onOpenChangeCreate(true);
         reset();
+
+        if (errors) {
+            Object.keys(errors).forEach((key) => {
+                (errors as Record<string, any>)[key] = '';
+            });
+        }
+
     };
 
     const onSubmit = () => {
@@ -231,6 +239,7 @@ export default function UserIndex({ records }: Records) {
         });
     };
 
+
     const [isSelected, setIsSelected] = React.useState(false);
 
     return (
@@ -256,11 +265,10 @@ export default function UserIndex({ records }: Records) {
                                             type="text"
                                             id="username"
                                             name="username"
-                                            className={`w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
-                                                errors.username
+                                            className={`w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${errors.username
                                                     ? "border-red-500"
                                                     : "border-gray-300"
-                                            }`}
+                                                }`}
                                             placeholder="Enter username"
                                             onChange={(e) =>
                                                 handleChange("username", e)
@@ -280,11 +288,10 @@ export default function UserIndex({ records }: Records) {
                                             type="text"
                                             id="name"
                                             name="name"
-                                            className={`w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
-                                                errors.name
+                                            className={`w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${errors.name
                                                     ? "border-red-500"
                                                     : "border-gray-300"
-                                            }`}
+                                                }`}
                                             placeholder="Enter Fullname"
                                             onChange={(e) =>
                                                 handleChange("name", e)
@@ -449,11 +456,10 @@ export default function UserIndex({ records }: Records) {
                                                 onClick={() =>
                                                     deleteUser(item.id)
                                                 }
-                                                className={`px-2 py-1 mr-2 bg-gray-200 text-red-500 rounded-md hover:bg-blue-200 focus:outline-none focus:ring-1 focus:ring-blue-200 ${
-                                                    isSelected === false
+                                                className={`px-2 py-1 mr-2 bg-gray-200 text-red-500 rounded-md hover:bg-blue-200 focus:outline-none focus:ring-1 focus:ring-blue-200 ${isSelected === false
                                                         ? "cursor-not-allowed opacity-50"
                                                         : "cursor-pointer"
-                                                }`}
+                                                    }`}
                                             >
                                                 <FontAwesomeIcon
                                                     className="w-4 h-4"

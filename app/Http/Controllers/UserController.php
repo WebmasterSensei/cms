@@ -12,7 +12,7 @@ class UserController extends Controller
     public function index()
     {
         return inertia('Users/UserIndex', [
-            'records' => User::with('model_has_role.roles')->paginate(10),
+            'records' => User::with('model_has_role.roles')->orderByDesc('id')->paginate(10),
         ]);
     }
 

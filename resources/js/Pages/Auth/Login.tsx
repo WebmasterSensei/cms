@@ -4,6 +4,7 @@ import "../../../css/login/img.css";
 import InputError from "@/Components/InputError";
 import TextInput from "@/Components/TextInput";
 import { Button } from "@heroui/button";
+import { error } from "console";
 
 export default function Login({
     status,
@@ -26,6 +27,11 @@ export default function Login({
         });
     };
 
+    const handleChange = (str: keyof typeof errors, event: any) => {
+        setData(str, event.target.value)
+        errors[str] = "";
+    }
+
     return (
         <>
             <div className="flex justify-center items-center h-[100vh]">
@@ -33,42 +39,44 @@ export default function Login({
                     className="shadow-2xl w-[65%] rounded-[2rem] overflow-hidden"
                     style={{ border: "solid #BCCCDC 2px" }}
                 >
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-2 h-[470px]">
                         <div className="bg-white p-6">
                             <form onSubmit={submit}>
                                 <h2 className="text-2xl font-semibold text-center mt-7 mb-4">
                                     LOGIN
                                 </h2>
-
                                 <div className="grid grid-cols-2 gap-4 mb-3">
                                     <TextInput
                                         id="username"
                                         name="username"
-                                        className="w-full px-5 py-3 border border-slate-300 rounded-2xl"
+                                        className={`w-full px-5 py-3 border rounded-2xl ${errors.username ? "border-red-500" : "border-slate-300"
+                                            }`}
                                         type="text"
                                         value={data.username}
-                                        onChange={(e) =>
-                                            setData("username", e.target.value)
-                                        }
+                                        onChange={(e) => handleChange("username", e)}
                                         placeholder="Username"
                                     />
+
+
                                     <TextInput
                                         id="password"
                                         name="password"
-                                        className="w-full px-5 py-3 border border-slate-300 rounded-2xl z-40"
+                                        className={`w-full px-5 py-3 border rounded-2xl z-40 ${errors.password ? "border-red-500" : "border-slate-300"
+                                            }`}
                                         type="password"
                                         value={data.password}
-                                        onChange={(e) =>
-                                            setData("password", e.target.value)
-                                        }
+                                        onChange={(e) => handleChange("password", e)}
                                         placeholder="Password"
                                     />
+
                                 </div>
+
 
 
                                 <div className="w-[95%] m-auto">
                                     {!errors.username && !errors.password ? (
-                                        <div className="relative flex w-full animate-pulse gap-2 p-4">
+                                        <div className={`relative flex w-full gap-2 p-4 ${processing ? "animate-pulse" : ""
+                                            }`}>
                                             <div className="h-12 w-12 rounded-full bg-slate-400"></div>
                                             <div className="flex-1">
                                                 <div className="mb-1 h-5 w-3/5 rounded-lg bg-slate-400 text-lg"></div>
@@ -77,10 +85,14 @@ export default function Login({
                                             <div className="absolute bottom-5 right-0 h-4 w-4 rounded-full bg-slate-400"></div>
                                         </div>
                                     ) : (
-                                        <div className="mt-6 mb-10">
+                                        <div className="mt-1 mb-10 flex justify-center">
                                             <InputError
                                                 message={errors.username}
                                             />
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
                                             <InputError
                                                 message={errors.password}
                                             />
@@ -108,7 +120,7 @@ export default function Login({
                                         type="submit"
                                         disabled={processing}
                                     >
-                                        Login
+                                        {processing ? 'loging in...' : 'Login'}
                                     </Button>
                                 </div>
                             </form>

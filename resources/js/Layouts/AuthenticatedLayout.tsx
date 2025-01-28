@@ -1,6 +1,6 @@
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
-import { PropsWithChildren, ReactNode, useState } from "react";
+import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
 import {
     Disclosure,
     DisclosureButton,
@@ -12,25 +12,52 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
+interface NavigationItem {
+    name: string;    // Name of the route
+    route: string;   // Route path
+    current: boolean; // Indicates if this is the current route
+}
+
 export default function Authenticated({
     header,
     children,
 }: PropsWithChildren<{ header?: ReactNode }>) {
 
+    const user = usePage().props.auth.user;
+
     const { url } = usePage();
 
-    const navigation = [
-        { name: "Dashboard", route: "dashboard", current: true },
-        { name: "User Setup", route: "users.index", current: true },
-    ];
+    console.log(url);
+
+    const [nav, setNavigation] = useState<NavigationItem[]>([]);
+
+    useEffect(() => {
+
+        if (user.name === 'superadmin') {
+            setNavigation([
+                { name: "Dashboard", route: "dashboard", current: true },
+                { name: "User Setup", route: "users.index", current: false },
+            ]);
+        } else if (user.name === 'admin') {
+            setNavigation([
+                { name: "Dashboard", route: "dashboard", current: true },
+                { name: "User Setup", route: "users.index", current: false },
+            ]);
+        } else {
+            setNavigation([
+                { name: "Dashboard", route: "dashboard", current: true },
+                // { name: "User Setup", route: "users.index", current: false },
+            ]);
+        }
+    }, []);
+
 
     function classNames(...classes: (string | undefined | null | false)[]) {
         return classes.filter(Boolean).join(" ");
     }
-    const user = usePage().props.auth.user;
 
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+
+    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -62,7 +89,7 @@ export default function Authenticated({
                             </div>
                             <div className="hidden sm:ml-6 sm:block">
                                 <div className="flex space-x-4">
-                                    {navigation.map((item) => (
+                                    {nav.map((item) => (
                                         <Link
                                             style={{ cursor: "pointer" }}
                                             key={item.name}
@@ -153,7 +180,7 @@ export default function Authenticated({
 
                 <DisclosurePanel className="sm:hidden">
                     <div className="space-y-1 px-2 pb-3 pt-2">
-                        {navigation.map((item) => (
+                        {nav.map((item) => (
                             <DisclosureButton
                                 key={item.name}
                                 as="a"
