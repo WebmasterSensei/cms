@@ -25,7 +25,8 @@ class OnlineUsers
             'id' => $user->id,
             'name' => $user->name,
             'image' => $image,
-            'username' => $user->username
+            'username' => $user->username,
+            'role' => $user->model_has_role->roles->name
         ];
     }
 }

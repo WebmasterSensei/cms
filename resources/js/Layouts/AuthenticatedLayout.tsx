@@ -27,8 +27,6 @@ export default function Authenticated({
 
     const { url } = usePage();
 
-    console.log(url);
-
     const [nav, setNavigation] = useState<NavigationItem[]>([]);
 
     useEffect(() => {

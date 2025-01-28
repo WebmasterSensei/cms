@@ -5,22 +5,26 @@ import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { useOnlineUsersStore } from "@/stores/online-users";
 import { usePage } from "@inertiajs/react";
-import Pagination from "@/Components/Pagination";
 import echo from "../echo";
+import {
+    Avatar,
+    Chip
+
+} from "@heroui/react";
 export default function Dashboard() {
     const { onlineUsers, setOnlineUsers, addOnlineUser, removeOnlineUser } =
         useOnlineUsersStore();
-    const user = usePage();
+    const user = usePage().props.auth;
 
     interface Users {
         id: number,
         name: string,
         username: string,
-
+        role: string
     }
 
     useEffect(() => {
-        if (user.props.auth) {
+        if (user) {
             echo.join("online.users")
                 .here((users: Users) => {
                     setOnlineUsers(users); // Set the initial list of online users
@@ -35,7 +39,7 @@ export default function Dashboard() {
                 echo.leaveAllChannels();
             };
         }
-    }, [user.props.auth, setOnlineUsers, addOnlineUser, removeOnlineUser]);
+    }, [user, setOnlineUsers, addOnlineUser, removeOnlineUser]);
 
     return (
         <AuthenticatedLayout
@@ -46,10 +50,10 @@ export default function Dashboard() {
             }
         >
             <Head title="Dashboard" />
-            
+
             <div className="py-1">
                 <div className="min-h-screen p-6">
-                    <div className="container mx-auto">
+                    <div className="container-auto mx-auto">
                         <header className="mb-6">
                             <h1 className="text-2xl font-bold text-gray-800">
                                 Program Level Dashboard
@@ -61,7 +65,7 @@ export default function Dashboard() {
                                 <h2 className="text-lg font-semibold pl-2 text-gray-700 mb-4">
                                     Users Status
                                 </h2>
-                                <h2 className="mx-2 mb-4">Online User{onlineUsers.length === 1 ? '' :'s'} {onlineUsers.length}</h2>
+                                <h2 className="mx-2 mb-4">Online User{onlineUsers.length === 1 ? '' : 's'} {onlineUsers.length}</h2>
                                 <hr />
 
                                 <div className="flex items-center justify-center">
@@ -69,24 +73,31 @@ export default function Dashboard() {
                                         <ul className="divide-y divide-gray-200">
                                             {onlineUsers.map((user: Users) => (
                                                 <div key={user.id}>
-                                                    <li className="flex items-center p-1">
-                                                        <div className="relative">
-                                                            <img
-                                                                className="w-12 h-12 rounded-full border border-gray-300"
-                                                                src="https://imgs.search.brave.com/MA3s1z7gfsxb9WPXXf5sz4mHU_vLXh0DexuuFfAM500/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLWNsYW4u/Y29tL3dwLWNvbnRl/bnQvdXBsb2Fkcy8y/MDIyLzAyL2RlbW9u/LXNsYXllci10YW5q/aXJvLXBmcC0xLmpw/Zw"
-                                                                alt="User 1"
-                                                            />
-                                                            <span className="absolute bottom-0 right-0 bg-green-500 h-3 w-3 rounded-full border border-white"></span>
+                                                    <div className="flex justify-between">
+                                                        <li className="flex items-center p-1">
+                                                            <div className="relative mb-2">
+                                                                <Avatar className="w-11 h-11 mt-2" isBordered color="default" src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
+                                                                <span className="absolute bottom-0 right-0 bg-green-500 h-3 w-3 rounded-full border border-white"></span>
+                                                            </div>
+                                                            <div className="ml-4">
+                                                                <p className="text-sm font-medium text-gray-700">
+                                                                    {user.name}
+                                                                </p>
+                                                                <p className="text-xs text-gray-500">
+                                                                    Online
+                                                                </p>
+                                                            </div>
+
+                                                        </li>
+                                                        <div>
+                                                            <div className="ml-4 mt-4">
+                                                                <Chip color="warning" variant="faded">
+                                                                    {user.role}
+                                                                </Chip>
+                                                            </div>
                                                         </div>
-                                                        <div className="ml-4">
-                                                            <p className="text-sm font-medium text-gray-700">
-                                                                {user.name}
-                                                            </p>
-                                                            <p className="text-xs text-gray-500">
-                                                                Online
-                                                            </p>
-                                                        </div>
-                                                    </li>
+                                                    </div>
+
                                                 </div>
                                             ))}
                                         </ul>
