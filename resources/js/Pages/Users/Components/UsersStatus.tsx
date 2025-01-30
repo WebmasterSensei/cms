@@ -13,9 +13,12 @@ interface Users {
         role: string
     }[]
 }
-export default function UsersStatus({onlineUsers}: Users) {
+export default function UsersStatus({ onlineUsers }: Users) {
     return (
         <>
+            <h2 className="text-lg font-semibold pl-2 text-gray-700 mb-4">
+                Users Status
+            </h2>
             <h2 className="mx-2 mb-4">Online User{onlineUsers.length === 1 ? '' : 's'} {onlineUsers.length}</h2>
             <hr />
 

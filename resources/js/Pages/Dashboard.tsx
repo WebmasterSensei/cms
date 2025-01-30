@@ -12,7 +12,20 @@ import {
 
 } from "@heroui/react";
 import UsersStatus from "./Users/Components/UsersStatus";
-export default function Dashboard() {
+import IpPhone from "./Users/Components/IpPhone";
+
+interface IpPhones {
+    ipphones: {
+        id: number,
+        name: string,
+        number: number,
+        status: string
+    }[]
+}
+
+
+export default function Dashboard({ipphones}: IpPhones) {
+
     const { onlineUsers, setOnlineUsers, addOnlineUser, removeOnlineUser } =
         useOnlineUsersStore();
 
@@ -64,9 +77,6 @@ export default function Dashboard() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             <div className="bg-white rounded-lg shadow-sm p-5">
-                                <h2 className="text-lg font-semibold pl-2 text-gray-700 mb-4">
-                                    Users Status
-                                </h2>
                                {['admin', 'superadmin'].includes(user.user.name) ? (
                                 <>
                                 <div>
@@ -75,7 +85,7 @@ export default function Dashboard() {
                                 </>
                                ) : ( <>
                                 <div>
-
+                                    <IpPhone ipphones={ipphones}/>
                                 </div>
                                 </>)}
 
