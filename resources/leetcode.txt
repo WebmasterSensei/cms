@@ -1,0 +1,21 @@
+class Solution {
+
+    /**
+     * @param Integer[] $nums
+     * @param Integer $target
+     * @return Integer[]
+     */
+    function twoSum($nums, $target) {
+        $map = []; // Associative array to store the numbers we've seen so far
+    foreach ($nums as $index => $num) {
+        $complement = $target - $num;
+        if (isset($map[$complement])) {
+            // If the complement exists in the map, return the indices
+            return [$map[$complement], $index];
+        }
+        // Store the current number and its index in the map
+        $map[$num] = $index;
+    }
+    return []; // Return an empty array if no solution is found
+}
+}

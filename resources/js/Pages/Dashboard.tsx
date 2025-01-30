@@ -53,10 +53,10 @@ export default function Dashboard() {
 
             <div className="py-1">
                 <div className="min-h-screen p-6">
-                    <div className="container-auto mx-auto">
+                    <div className="container mx-auto">
                         <header className="mb-6">
                             <h1 className="text-2xl font-bold text-gray-800">
-                                Program Level Dashboard
+                           Dashboard
                             </h1>
                         </header>
 
