@@ -58,3 +58,10 @@
     align-items: center;
     width: 100%;
 }
+
+.bgImage{
+    background-image: url("../images/wallp.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
