@@ -5,6 +5,7 @@ import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { useOnlineUsersStore } from "@/stores/online-users";
 import { usePage } from "@inertiajs/react";
+import DtrMonitoring from "@/Pages/Components/DtrMonitoring"
 import echo from "../echo";
 import {
     Avatar,
@@ -94,32 +95,7 @@ export default function Dashboard({ipphones}: IpPhones) {
                                 <h2 className="text-lg font-semibold text-gray-700 mb-4">
                                     Status of Issues Across Projects
                                 </h2>
-                                <table className="table-auto w-full text-sm text-left text-gray-600">
-                                    <thead>
-                                        <tr className="bg-gray-200">
-                                            <th className="px-4 py-2">
-                                                Project
-                                            </th>
-                                            <th className="px-4 py-2">Open</th>
-                                            <th className="px-4 py-2">
-                                                In Progress
-                                            </th>
-                                            <th className="px-4 py-2">
-                                                Closed
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td className="px-4 py-2">
-                                                Finance
-                                            </td>
-                                            <td className="px-4 py-2">10</td>
-                                            <td className="px-4 py-2">5</td>
-                                            <td className="px-4 py-2">8</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+
                             </div>
 
                             <div className="bg-white rounded-lg shadow-md p-4">
